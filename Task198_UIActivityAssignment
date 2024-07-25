@@ -1,0 +1,128 @@
+// import 'package:flutter/material.dart';
+//
+// void main() {
+//   runApp(MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Volunteer App',
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: Text('Volunteer App'),
+//         ),
+//         body: Center(
+//           child: Text('Welcome to the Volunteer App!'),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Volunteer App',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Volunteer App'),
+        ),
+        body: ActivityAssignmentScreen(),
+      ),
+    );
+  }
+}
+
+class ActivityAssignmentScreen extends StatefulWidget {
+  @override
+  _ActivityAssignmentScreenState createState() => _ActivityAssignmentScreenState();
+}
+
+class _ActivityAssignmentScreenState extends State<ActivityAssignmentScreen> {
+  String? selectedVolunteer;
+  String? selectedActivity;
+
+  final List<String> volunteers = ['Siraj Mohammad', 'Faraaz Husain', 'Aaahil Penwalla', 'Mohamed Junaid Ghani', 'Sidra Dakhel', 'Ryan Vaseem', 'Abbas Haq', 'Isra Osmani', 'Khashiya Ranginwala', 'Anisa Ismail', 'Muneeza Qureshi'];
+  final List<String> activities = ['Business Analysis', 'Design', 'Programming', 'Data Analysis', 'Testing SQA'];
+
+  void assignActivity() {
+    if (selectedVolunteer != null && selectedActivity != null) {
+      // Handle the activity assignment logic here
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Assigned $selectedActivity to $selectedVolunteer'),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Please select both volunteer and activity'),
+      ));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Assign Activity',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 16),
+          DropdownButtonFormField<String>(
+            decoration: InputDecoration(labelText: 'Select Volunteer'),
+            value: selectedVolunteer,
+            items: volunteers.map((volunteer) {
+              return DropdownMenuItem<String>(
+                value: volunteer,
+                child: Text(volunteer),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                selectedVolunteer = value;
+              });
+            },
+          ),
+          SizedBox(height: 16),
+          DropdownButtonFormField<String>(
+            decoration: InputDecoration(labelText: 'Select Activity'),
+            value: selectedActivity,
+            items: activities.map((activity) {
+              return DropdownMenuItem<String>(
+                value: activity,
+                child: Text(activity),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                selectedActivity = value;
+              });
+            },
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: assignActivity,
+            child: Text('Assign Activity'),
+          ),
+        ],
+      ),
+    );
+  }
+}
